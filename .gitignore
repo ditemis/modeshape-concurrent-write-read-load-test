@@ -1,12 +1,29 @@
-*.class
+# ignore Maven generated target folders
+target
+overlays
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+# ignore eclipse files and folders
+.project
+.classpath
+.settings
+.metadata
+.scala_dependencies
+.externalToolBuilders
+/.metadata
+/RemoteSystemsTempFiles
 
-# Package Files #
-*.jar
-*.war
-*.ear
+# ignore IDEA files
+*.iml
+*.ipr
+*.iws
+.idea
+atlassian-ide-plugin.xml
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+# Compiled python files
+*.pyc
+
+# REST client module bin folder
+/tools/org.modeshape.eclipse.jcr.rest.client/bin
+
+# Presentation Keynote files
+/docs/presentations/*.key
