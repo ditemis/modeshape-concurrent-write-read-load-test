@@ -20,18 +20,50 @@ public class TestNodeManager {
     @Inject
     private Session session;
     
-    public String buildTestNode() {
-        // TODO create node
-        LOGGER.info("newTestNode");
+    public String buildTestNode() throws RepositoryException {
+        LOGGER.info("buildTestNode");
         try {
             Node rootNode = session.getRootNode();
-            Node newNode = rootNode.addNode(UUID.randomUUID().toString());
+            Node newNode = rootNode.addNode("test/" + UUID.randomUUID().toString());
+            newNode.setProperty("status", "new");
+            
+            Node childNode1 = newNode.addNode("child1");
+            childNode1.setProperty("test", "test");
+            
+            Node childNode2 = newNode.addNode("child2");
+            childNode2.setProperty("test", "test");
+            
+            Node childNode3 = newNode.addNode("child3");
+            childNode3.setProperty("test", "test");
+            
+            Node childNode4 = newNode.addNode("child4");
+            childNode4.setProperty("test", "test");
+            
+            Node childNode5 = newNode.addNode("child5");
+            childNode5.setProperty("test", "test");
             
             session.save();
-            return newNode.getIdentifier();
+            
+            Node getNewNode = session.getNodeByIdentifier(newNode.getIdentifier());
+            return getNewNode.getIdentifier();
         } catch (RepositoryException rex) {
             LOGGER.info("Failed building new node", rex);
+            throw rex;
         }
-        return null;
+    }
+    
+    public String updateTestNode(String nodeId, String status) throws RepositoryException {
+        LOGGER.info("updateTestNode " + nodeId);
+        try {
+            Node testNode = session.getNodeByIdentifier(nodeId);
+            testNode.setProperty("status", status);
+            
+            session.save();
+            
+            return testNode.getIdentifier();
+        } catch (RepositoryException rex) {
+            LOGGER.info("Failed updating node " + nodeId, rex);
+            throw rex;
+        }
     }
 }
