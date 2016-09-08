@@ -18,6 +18,8 @@ public class TestNodeManager {
     @Inject
     private Session session;
     
+    private final int CHILD_TEST_NODES = 5;
+    
     public String buildTestNode() throws RepositoryException {
 //        LOGGER.info("buildTestNode");
         try {
@@ -25,20 +27,10 @@ public class TestNodeManager {
             Node newNode = testNode.addNode(UUID.randomUUID().toString());
             newNode.setProperty("status", "new");
             
-            Node childNode1 = newNode.addNode("child1");
-            childNode1.setProperty("test", "test");
-
-            Node childNode2 = newNode.addNode("child2");
-            childNode2.setProperty("test", "test");
-
-            Node childNode3 = newNode.addNode("child3");
-            childNode3.setProperty("test", "test");
-
-            Node childNode4 = newNode.addNode("child4");
-            childNode4.setProperty("test", "test");
-
-            Node childNode5 = newNode.addNode("child5");
-            childNode5.setProperty("test", "test");
+            for (int i = 0; i < CHILD_TEST_NODES; i++) {
+                Node childNode = newNode.addNode("child" + i);
+                childNode.setProperty("test", "test");
+            }
 
             session.save();
 
@@ -57,15 +49,30 @@ public class TestNodeManager {
             Node testNode = session.getNodeByIdentifier(nodeId);
             testNode.setProperty("status", status);
 
-            testNode.getNode("child1").remove();
-            Node newChildNode = testNode.addNode("child1");
-            newChildNode.setProperty("test", status);
+            // only update one child node
+            Node childNode = testNode.getNode("child0");
+            childNode.setProperty("test", status);
 
             session.save();
-            
+
             return testNode.getIdentifier();
         } catch (RepositoryException rex) {
             LOGGER.info("Failed updating node " + nodeId, rex);
+            throw rex;
+        }
+    }
+
+    public String deleteTestNode(String nodeId) throws RepositoryException {
+        try {
+            Node testNode = session.getNodeByIdentifier(nodeId);
+            String nodeIdentifier = testNode.getIdentifier();
+            testNode.remove();
+
+            session.save();
+            
+            return nodeIdentifier;
+        } catch (RepositoryException rex) {
+            LOGGER.info("Failed deleting node " + nodeId, rex);
             throw rex;
         }
     }

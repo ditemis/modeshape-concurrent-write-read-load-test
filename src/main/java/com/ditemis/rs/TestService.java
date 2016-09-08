@@ -27,4 +27,11 @@ public class TestService {
     public String updateTestNode(@PathParam(value = "nodeId") String nodeId) throws RepositoryException {
         return testNodeMgr.updateTestNode(nodeId, "update");
     }
+
+    @DELETE
+    @Path("/{nodeId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deleteTestNode(@PathParam(value = "nodeId") String nodeId) throws RepositoryException {
+        return testNodeMgr.deleteTestNode(nodeId);
+    }
 }
