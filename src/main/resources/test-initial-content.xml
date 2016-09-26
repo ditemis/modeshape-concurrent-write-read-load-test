@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0">
     <test>
+        <type1></type1>
+        <type2></type2>
+        <type3></type3>
+        <type4></type4>
+        <type5></type5>
     </test>
 </jcr:root>

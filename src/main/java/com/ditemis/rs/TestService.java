@@ -18,7 +18,15 @@ public class TestService {
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public String getNewTestNode() throws RepositoryException {
-        return testNodeMgr.buildTestNode();
+        return testNodeMgr.buildTestNodeWithTypeStructure();
+//        return testNodeMgr.buildTestNode();
+    }
+    @GET
+    @Path("/{clientId}/{nodeType}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getExistingTestNode(@PathParam(value = "clientId") String clientId, @PathParam(value = "nodeType") String nodeType) throws RepositoryException {
+        return testNodeMgr.getTestNodeWithTypeStructure(clientId, nodeType);
+//        return testNodeMgr.getTestNode(clientId, nodeType);
     }
 
     @PUT
